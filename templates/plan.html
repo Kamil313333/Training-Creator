@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Workout Plan</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Your Workout Plan</h1>
+    <ul>
+        {% for exercise in exercises %}
+        <li>{{ exercise.name }} - {{ exercise.muscle_group }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
