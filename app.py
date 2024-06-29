@@ -3,47 +3,36 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-db = SQLAlchemy(app)
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-class UserPreferences(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    goal = db.Column(db.String(100))
-    experience_level = db.Column(db.String(100))
-    available_time = db.Column(db.Integer)
-    equipment = db.Column(db.String(100))
+db = SQLAlchemy(app)
 
 class Exercise(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100))
-    muscle_group = db.Column(db.String(100))
-    equipment_needed = db.Column(db.String(100))
-
-with app.app_context():
-    db.create_all()
+    name = db.Column(db.String(100), nullable=False)
+    muscle_group = db.Column(db.String(100), nullable=False)
+    equipment_needed = db.Column(db.String(100), nullable=False)
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/submit_preferences', methods=['POST'])
-def submit_preferences():
-    goal = request.form['goal']
-    experience_level = request.form['experience_level']
-    available_time = request.form['available_time']
-    equipment = request.form['equipment']
-    
-    user_preferences = UserPreferences(goal=goal, experience_level=experience_level, available_time=available_time, equipment=equipment)
-    db.session.add(user_preferences)
-    db.session.commit()
-    
-    return redirect(url_for('plan', user_id=user_preferences.id))
+@app.route('/add_exercise', methods=['GET', 'POST'])
+def add_exercise():
+    if request.method == 'POST':
+        name = request.form['name']
+        muscle_group = request.form['muscle_group']
+        equipment_needed = request.form['equipment_needed']
 
-@app.route('/plan/<int:user_id>')
-def plan(user_id):
-    user_preferences = UserPreferences.query.get(user_id)
-    exercises = Exercise.query.filter((Exercise.equipment_needed == user_preferences.equipment) | (Exercise.equipment_needed == None)).all()
-    
-    return render_template('plan.html', exercises=exercises)
+        exercise = Exercise(name=name, muscle_group=muscle_group, equipment_needed=equipment_needed)
+        db.session.add(exercise)
+        db.session.commit()
+
+        return redirect(url_for('index'))
+
+    return render_template('add_exercise.html')
 
 if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exercises</title>
+</head>
+<body>
+    <h1>Exercises</h1>
+    <ul>
+        {% for exercise in exercises %}
+            <li>{{ exercise.name }} - {{ exercise.muscle_group }} - {{ exercise.equipment_needed }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('index') }}">Back to Preferences</a>
+</body>
+</html>
