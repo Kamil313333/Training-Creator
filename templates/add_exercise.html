@@ -1,24 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Exercise</title>
-</head>
-<body>
-    <h1>Add a New Exercise</h1>
-    <form action="{{ url_for('add_exercise') }}" method="post">
-        <label for="name">Name:</label>
+<!-- add_exercise.html -->
+{% extends 'layout.html' %}
+
+{% block content %}
+    <h2>Add New Exercise</h2>
+    <form method="POST" action="{{ url_for('add_exercise') }}">
+        <label for="name">Exercise Name:</label>
         <input type="text" id="name" name="name" required>
-        <br>
         <label for="muscle_group">Muscle Group:</label>
-        <input type="text" id="muscle_group" name="muscle_group" required>
-        <br>
-        <label for="equipment_needed">Equipment Needed:</label>
-        <input type="text" id="equipment_needed" name="equipment_needed" required>
-        <br>
+        <select id="muscle_group" name="muscle_group" required>
+            <option value="Chest">Chest</option>
+            <option value="Back">Back</option>
+            <option value="Legs">Legs</option>
+            <option value="Core">Core</option>
+            <!-- Dodaj inne grupy mięśniowe według potrzeb -->
+        </select>
         <button type="submit">Add Exercise</button>
     </form>
-    <a href="{{ url_for('index') }}">Go Back</a>
-</body>
-</html>
+{% endblock %}

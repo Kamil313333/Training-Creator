@@ -1,12 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exercise Plan</title>
-</head>
-<body>
-    <h1>Welcome to the Exercise Plan Creator</h1>
-    <a href="{{ url_for('add_exercise') }}">Add Exercise</a>
-</body>
-</html>
+<!-- index.html -->
+{% extends 'layout.html' %}
+
+{% block content %}
+    <h2>Exercise List</h2>
+    <ul>
+        {% for exercise in exercises %}
+            <li>{{ exercise.name }} - {{ exercise.muscle_group }} - {{ exercise.equipment_needed }}</li>
+        {% else %}
+            <li>No exercises added yet.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

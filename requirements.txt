@@ -1,4 +1,2 @@
-Flask
-Flask-SQLAlchemy
-python
-Flask-Migrate
+Flask==2.1.1
+Flask-SQLAlchemy==2.5.1

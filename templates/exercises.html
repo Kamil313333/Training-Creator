@@ -1,15 +1,18 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Exercises</title>
-</head>
-<body>
-    <h1>Exercises</h1>
+<!-- exercises.html -->
+{% extends 'layout.html' %}
+
+{% block content %}
+    <h2>Exercise List</h2>
     <ul>
         {% for exercise in exercises %}
-            <li>{{ exercise.name }} - {{ exercise.muscle_group }} - {{ exercise.equipment_needed }}</li>
+            <li>
+                <strong>{{ exercise.name }}</strong> - {{ exercise.muscle_group }}
+                <form action="{{ url_for('delete_exercise', id=exercise.id) }}" method="POST" style="display:inline;">
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+        {% else %}
+            <li>No exercises found.</li>
         {% endfor %}
     </ul>
-    <a href="{{ url_for('index') }}">Back to Preferences</a>
-</body>
-</html>
+{% endblock %}
