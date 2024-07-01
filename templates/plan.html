@@ -1,0 +1,21 @@
+<!-- templates/plan.html -->
+{% extends 'layout.html' %}
+
+{% block title %}Training Plan{% endblock %}
+
+{% block content %}
+    <h1>Training Plan for {{ training_type }}</h1>
+    
+    {% if plan %}
+        {% for day, exercises in plan.items() %}
+            <h2>{{ day }} Day</h2>
+            <ul>
+                {% for exercise in exercises %}
+                <li>{{ exercise.name }}</li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    {% else %}
+        <p>No plan generated yet.</p>
+    {% endif %}
+{% endblock %}

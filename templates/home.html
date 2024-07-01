@@ -1,0 +1,18 @@
+<!-- templates/home.html -->
+{% extends 'layout.html' %}
+
+{% block title %}Training Preferences{% endblock %}
+
+{% block content %}
+    <h1>Choose Training Type</h1>
+    <form action="{{ url_for('home') }}" method="post">
+        <label for="training_type">Select training type:</label>
+        <select name="training_type" id="training_type">
+            <option value="Push Pull Legs">Push Pull Legs</option>
+            <option value="Split">Split</option>
+            <option value="FBW">FBW</option>
+        </select>
+        <br><br>
+        <input type="submit" value="Generate Plan">
+    </form>
+{% endblock %}
