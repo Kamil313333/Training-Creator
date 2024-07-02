@@ -15,12 +15,29 @@ class Exercise(db.Model):
 def index():
     return render_template('index.html')
 
+@app.route('/home', methods=['GET', 'POST'])
+def home():
+    if request.method == 'POST':
+        training_type = request.form['training_type']
+        if training_type == 'Push Pull Legs':
+            plan = generate_push_pull_legs_plan()
+        elif training_type == 'Split':
+            plan = generate_split_plan()
+        elif training_type == 'FBW':
+            plan = generate_fbw_plan()
+        else:
+            return "Unknown training type"
+
+        return render_template('plan.html', training_type=training_type, plan=plan)
+
+    return render_template('home.html')
+
 @app.route('/exercises')
 def exercises():
-    exercises = Exercise.query.all()
-    return render_template('exercises.html', exercises=exercises)
+    all_exercises = Exercise.query.all()
+    return render_template('exercises.html', exercises=all_exercises)
 
-@app.route('/add-exercise', methods=['GET', 'POST'])
+@app.route('/add_exercise', methods=['GET', 'POST'])
 def add_exercise():
     if request.method == 'POST':
         name = request.form['name']
@@ -31,63 +48,65 @@ def add_exercise():
         return redirect(url_for('exercises'))
     return render_template('add_exercise.html')
 
-@app.route('/delete-exercise/<int:id>', methods=['GET', 'POST'])
+@app.route('/delete_exercise/<int:id>', methods=['POST'])
 def delete_exercise(id):
-    exercise = Exercise.query.get_or_404(id)
-    if request.method == 'POST':
+    exercise = Exercise.query.get(id)
+    if exercise:
         db.session.delete(exercise)
         db.session.commit()
-        return redirect(url_for('exercises'))
-    return render_template('delete_exercise.html', exercise=exercise)
+    return redirect(url_for('exercises'))
 
-@app.route('/home', methods=['GET', 'POST'])
-def home():
-    if request.method == 'POST':
-        training_type = request.form['training_type']
-        return redirect(url_for('plan', training_type=training_type))
-    return render_template('home.html')
+def generate_push_pull_legs_plan():
+    chest_exercises = Exercise.query.filter_by(muscle_group='Chest').all()
+    shoulders_exercises = Exercise.query.filter_by(muscle_group='Shoulders').all()
+    triceps_exercises = Exercise.query.filter_by(muscle_group='Triceps').all()
+    back_exercises = Exercise.query.filter_by(muscle_group='Back').all()
+    biceps_exercises = Exercise.query.filter_by(muscle_group='Biceps').all()
+    legs_exercises = Exercise.query.filter_by(muscle_group='Legs').all()
+    calves_exercises = Exercise.query.filter_by(muscle_group='Calves').all()
 
-@app.route('/plan/<training_type>')
-def plan(training_type):
-    exercises = Exercise.query.all()
-    grouped_exercises = {
-        'Legs': [e for e in exercises if e.muscle_group == 'Legs'],
-        'Shoulders': [e for e in exercises if e.muscle_group == 'Shoulders'],
-        'Chest': [e for e in exercises if e.muscle_group == 'Chest'],
-        'Back': [e for e in exercises if e.muscle_group == 'Back'],
-        'Biceps': [e for e in exercises if e.muscle_group == 'Biceps'],
-        'Triceps': [e for e in exercises if e.muscle_group == 'Triceps'],
-        'Calves': [e for e in exercises if e.muscle_group == 'Calves']
-    }
-    plan = generate_plan(training_type, grouped_exercises)
-    return render_template('plan.html', training_type=training_type, plan=plan)
-
-def generate_plan(training_type, exercises):
     plan = {}
-    if training_type == 'Push Pull Legs':
-        plan['Push'] = random.sample(exercises['Chest'], min(3, len(exercises['Chest']))) + \
-                       random.sample(exercises['Shoulders'], min(2, len(exercises['Shoulders']))) + \
-                       random.sample(exercises['Triceps'], min(1, len(exercises['Triceps'])))
-        plan['Pull'] = random.sample(exercises['Back'], min(4, len(exercises['Back']))) + \
-                       random.sample(exercises['Biceps'], min(1, len(exercises['Biceps']))) + \
-                       random.sample(exercises['Shoulders'], min(1, len(exercises['Shoulders'])))
-        plan['Legs'] = random.sample(exercises['Legs'], min(5, len(exercises['Legs']))) + \
-                       random.sample(exercises['Calves'], min(1, len(exercises['Calves'])))
-    elif training_type == 'Split':
-        plan['Legs'] = random.sample(exercises['Legs'], min(4, len(exercises['Legs']))) + \
-                       random.sample(exercises['Calves'], min(1, len(exercises['Calves'])))
-        plan['Chest'] = random.sample(exercises['Chest'], min(5, len(exercises['Chest'])))
-        plan['Back'] = random.sample(exercises['Back'], min(5, len(exercises['Back'])))
-        plan['Arms'] = random.sample(exercises['Biceps'], min(2, len(exercises['Biceps']))) + \
-                       random.sample(exercises['Triceps'], min(2, len(exercises['Triceps'])))
-    elif training_type == 'FBW':
-        plan['Day A'] = random.sample(exercises['Legs'], min(1, len(exercises['Legs']))) + \
-                        random.sample(exercises['Chest'], min(1, len(exercises['Chest']))) + \
-                        random.sample(exercises['Back'], min(1, len(exercises['Back'])))
-        plan['Day B'] = random.sample(exercises['Legs'], min(1, len(exercises['Legs']))) + \
-                        random.sample(exercises['Chest'], min(1, len(exercises['Chest']))) + \
-                        random.sample(exercises['Back'], min(1, len(exercises['Back'])))
+    plan['Push'] = random.sample(chest_exercises, min(3, len(chest_exercises))) + \
+                   random.sample(shoulders_exercises, min(2, len(shoulders_exercises))) + \
+                   random.sample(triceps_exercises, min(1, len(triceps_exercises)))
+    plan['Pull'] = random.sample(back_exercises, min(4, len(back_exercises))) + \
+                   random.sample(biceps_exercises, min(1, len(biceps_exercises))) + \
+                   random.sample(shoulders_exercises, min(1, len(shoulders_exercises)))
+    plan['Legs'] = random.sample(legs_exercises, min(5, len(legs_exercises))) + \
+                   random.sample(calves_exercises, min(1, len(calves_exercises)))
+    
     return plan
 
-if __name__ == '__main__':
+def generate_split_plan():
+    chest_exercises = Exercise.query.filter_by(muscle_group='Chest').all()
+    back_exercises = Exercise.query.filter_by(muscle_group='Back').all()
+    biceps_exercises = Exercise.query.filter_by(muscle_group='Biceps').all()
+    legs_exercises = Exercise.query.filter_by(muscle_group='Legs').all()
+    calves_exercises = Exercise.query.filter_by(muscle_group='Calves').all()
+
+    plan = {}
+    plan['Legs'] = random.sample(legs_exercises, min(4, len(legs_exercises))) + \
+                   random.sample(calves_exercises, min(1, len(calves_exercises)))
+    plan['Chest'] = random.sample(chest_exercises, min(5, len(chest_exercises)))
+    plan['Back'] = random.sample(back_exercises, min(5, len(back_exercises)))
+    plan['Arms'] = random.sample(biceps_exercises, min(2, len(biceps_exercises)))
+
+    return plan
+
+def generate_fbw_plan():
+    chest_exercises = Exercise.query.filter_by(muscle_group='Chest').all()
+    back_exercises = Exercise.query.filter_by(muscle_group='Back').all()
+    legs_exercises = Exercise.query.filter_by(muscle_group='Legs').all()
+
+    plan = {}
+    plan['Day A'] = random.sample(chest_exercises, min(1, len(chest_exercises))) + \
+                    random.sample(back_exercises, min(1, len(back_exercises))) + \
+                    random.sample(legs_exercises, min(1, len(legs_exercises)))
+    plan['Day B'] = random.sample(chest_exercises, min(1, len(chest_exercises))) + \
+                    random.sample(back_exercises, min(1, len(back_exercises))) + \
+                    random.sample(legs_exercises, min(1, len(legs_exercises)))
+    
+    return plan
+
+if __name__ == "__main__":
     app.run(debug=True)

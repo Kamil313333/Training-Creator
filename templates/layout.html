@@ -1,23 +1,19 @@
-<!-- templates/layout.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Training Plan Generator</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <nav>
-        <ul>
-            <li><a href="{{ url_for('index') }}">Home</a></li>
-            <li><a href="{{ url_for('home') }}">Training Preferences</a></li>
-            <li><a href="{{ url_for('exercises') }}">Exercises</a></li>
-            <li><a href="{{ url_for('add_exercise') }}">Add Exercise</a></li>
-        </ul>
-    </nav>
-    <main>
-        {% block content %}
-        {% endblock %}
-    </main>
+    <div class="container">
+        <h1>Training Plan Generator</h1>
+        <div class="content">
+            {% block content %}
+            {% endblock %}
+        </div>
+        <div class="footer">
+            <p>&copy; 2024 Training Plan Generator</p>
+        </div>
+    </div>
 </body>
 </html>

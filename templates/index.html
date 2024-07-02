@@ -1,13 +1,25 @@
-<!-- index.html -->
-{% extends 'layout.html' %}
-
-{% block content %}
-    <h2>Exercise List</h2>
-    <ul>
-        {% for exercise in exercises %}
-            <li>{{ exercise.name }} - {{ exercise.muscle_group }} - {{ exercise.equipment_needed }}</li>
-        {% else %}
-            <li>No exercises added yet.</li>
-        {% endfor %}
-    </ul>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training Plan Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Training Plan Generator</h1>
+        <div class="content">
+            <h2>Choose an Action</h2>
+            <ul>
+                <li><a href="{{ url_for('add_exercise') }}">Add Exercise</a></li>
+                <li><a href="{{ url_for('home') }}">Generate Training Plan</a></li>
+                <li><a href="{{ url_for('exercises') }}">View Exercises</a></li>
+            </ul>
+        </div>
+        <div class="footer">
+            <p>&copy; 2024 Training Plan Generator</p>
+        </div>
+    </div>
+</body>
+</html>
