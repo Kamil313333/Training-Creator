@@ -21,7 +21,7 @@ pip install -r requirements.txt
 from app import db
 db.create_all()
 ```
-4.Run the application:
+5.Run the application:
 ```
 flask run
 ```
