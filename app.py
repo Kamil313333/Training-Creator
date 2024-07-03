@@ -81,6 +81,7 @@ def generate_split_plan():
     chest_exercises = Exercise.query.filter_by(muscle_group='Chest').all()
     back_exercises = Exercise.query.filter_by(muscle_group='Back').all()
     biceps_exercises = Exercise.query.filter_by(muscle_group='Biceps').all()
+    triceps_exercises = Exercise.query.filter_by(muscle_group='Triceps').all()
     legs_exercises = Exercise.query.filter_by(muscle_group='Legs').all()
     calves_exercises = Exercise.query.filter_by(muscle_group='Calves').all()
 
@@ -89,7 +90,13 @@ def generate_split_plan():
                    random.sample(calves_exercises, min(1, len(calves_exercises)))
     plan['Chest'] = random.sample(chest_exercises, min(5, len(chest_exercises)))
     plan['Back'] = random.sample(back_exercises, min(5, len(back_exercises)))
-    plan['Arms'] = random.sample(biceps_exercises, min(2, len(biceps_exercises)))
+    
+    # Select 3 exercises for Biceps
+    biceps_selection = random.sample(biceps_exercises, min(3, len(biceps_exercises)))
+    # Select 3 exercises for Triceps
+    triceps_selection = random.sample(triceps_exercises, min(3, len(triceps_exercises)))
+    # Combine both selections for 'Arms'
+    plan['Arms'] = biceps_selection + triceps_selection
 
     return plan
 
@@ -99,13 +106,25 @@ def generate_fbw_plan():
     legs_exercises = Exercise.query.filter_by(muscle_group='Legs').all()
 
     plan = {}
-    plan['Day A'] = random.sample(chest_exercises, min(1, len(chest_exercises))) + \
-                    random.sample(back_exercises, min(1, len(back_exercises))) + \
-                    random.sample(legs_exercises, min(1, len(legs_exercises)))
-    plan['Day B'] = random.sample(chest_exercises, min(1, len(chest_exercises))) + \
-                    random.sample(back_exercises, min(1, len(back_exercises))) + \
-                    random.sample(legs_exercises, min(1, len(legs_exercises)))
-    
+
+    if len(chest_exercises) < 4 or len(back_exercises) < 4 or len(legs_exercises) < 4:
+        return "Not enough exercises to generate a full FBW plan"
+
+    chest_day_a = random.sample(chest_exercises, 2)
+    chest_day_b = [exercise for exercise in chest_exercises if exercise not in chest_day_a]
+    chest_day_b = random.sample(chest_day_b, 2)
+
+    back_day_a = random.sample(back_exercises, 2)
+    back_day_b = [exercise for exercise in back_exercises if exercise not in back_day_a]
+    back_day_b = random.sample(back_day_b, 2)
+
+    legs_day_a = random.sample(legs_exercises, 2)
+    legs_day_b = [exercise for exercise in legs_exercises if exercise not in legs_day_a]
+    legs_day_b = random.sample(legs_day_b, 2)
+
+    plan['Day A'] = chest_day_a + back_day_a + legs_day_a
+    plan['Day B'] = chest_day_b + back_day_b + legs_day_b
+
     return plan
 
 if __name__ == "__main__":

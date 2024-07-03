@@ -3,18 +3,22 @@
 {% block content %}
 <h2>Add Exercise</h2>
 <form action="{{ url_for('add_exercise') }}" method="post">
-    <label for="name">Exercise Name:</label>
-    <input type="text" id="name" name="name" required>
-    <label for="muscle_group">Muscle Group:</label>
-    <select id="muscle_group" name="muscle_group" required>
-        <option value="Chest">Chest</option>
-        <option value="Shoulders">Shoulders</option>
-        <option value="Triceps">Triceps</option>
-        <option value="Back">Back</option>
-        <option value="Biceps">Biceps</option>
-        <option value="Legs">Legs</option>
-        <option value="Calves">Calves</option>
-    </select>
+    <div>
+        <label for="name">Exercise Name:</label>
+        <input type="text" id="name" name="name" required>
+    </div>
+    <div>
+        <label for="muscle_group">Muscle Group:</label>
+        <select id="muscle_group" name="muscle_group" required>
+            <option value="Chest">Chest</option>
+            <option value="Shoulders">Shoulders</option>
+            <option value="Triceps">Triceps</option>
+            <option value="Back">Back</option>
+            <option value="Biceps">Biceps</option>
+            <option value="Legs">Legs</option>
+            <option value="Calves">Calves</option>
+        </select>
+    </div>
     <button type="submit">Add Exercise</button>
 </form>
 {% endblock %}

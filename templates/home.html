@@ -3,12 +3,14 @@
 {% block content %}
 <h2>Generate Training Plan</h2>
 <form action="{{ url_for('home') }}" method="post">
-    <label for="training_type">Training Type:</label>
-    <select id="training_type" name="training_type">
-        <option value="Push Pull Legs">Push Pull Legs</option>
-        <option value="Split">Split</option>
-        <option value="FBW">Full Body Workout</option>
-    </select>
+    <div>
+        <label for="training_type">Training Type:</label>
+        <select id="training_type" name="training_type">
+            <option value="Push Pull Legs">Push Pull Legs</option>
+            <option value="Split">Split</option>
+            <option value="FBW">Full Body Workout</option>
+        </select>
+    </div>
     <button type="submit">Generate Plan</button>
 </form>
 {% endblock %}
