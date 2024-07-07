@@ -29,3 +29,25 @@ flask run
 ### Screenshots
 
 
+![1](scr1.png)
+
+
+
+
+![2](scr2.png)
+
+
+
+
+![3](scr3.png)
+
+
+
+
+![4](scr4.png)
+
+
+
+
+![5](scr5.png)
+
