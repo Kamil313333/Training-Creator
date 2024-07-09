@@ -6,7 +6,7 @@ Training Plan Generator is a web application that allows users to create and man
 
 1.Clone the repository:
 ```
-git clone git clone https://github.com/yourusername/training-plan-generator.git
+git clone https://github.com/yourusername/training-plan-generator.git
 ```
 2.Navigate to the project directory:
 ```
