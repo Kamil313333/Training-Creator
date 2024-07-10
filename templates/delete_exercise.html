@@ -1,7 +1,10 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<h2>Delete Exercise</h2>
-<p>Exercise deleted successfully.</p>
-<a href="{{ url_for('exercises') }}">Back to Exercises</a>
+<div class="alert alert-success mt-4">
+    <h4 class="alert-heading">Delete Exercise</h4>
+    <p>Exercise deleted successfully.</p>
+    <hr>
+    <a href="{{ url_for('exercises') }}" class="btn btn-secondary">Back to Exercises</a>
+</div>
 {% endblock %}

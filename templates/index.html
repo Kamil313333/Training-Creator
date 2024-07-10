@@ -1,12 +1,13 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<h2>Welcome to the Training Plan Generator</h2>
-<div class="actions">
-    <ul>
-        <li><a href="{{ url_for('add_exercise') }}">Add Exercise</a></li>
-        <li><a href="{{ url_for('home') }}">Generate Training Plan</a></li>
-        <li><a href="{{ url_for('exercises') }}">View Exercises</a></li>
-    </ul>
+<div class="jumbotron mt-4">
+    <div class="actions mt-4">
+        <ul class="list-group">
+            <li class="list-group-item"><a href="{{ url_for('add_exercise') }}" class="btn btn-link">Add Exercise</a></li>
+            <li class="list-group-item"><a href="{{ url_for('home') }}" class="btn btn-link">Generate Training Plan</a></li>
+            <li class="list-group-item"><a href="{{ url_for('exercises') }}" class="btn btn-link">View Exercises</a></li>
+        </ul>
+    </div>
 </div>
 {% endblock %}

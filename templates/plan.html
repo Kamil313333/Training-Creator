@@ -1,13 +1,19 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<h2>{{ training_type }} Plan</h2>
-{% for day, exercises in plan.items() %}
-<h3>{{ day }}</h3>
-<ul>
-    {% for exercise in exercises %}
-    <li>{{ exercise.name }} ({{ exercise.muscle_group }})</li>
-    {% endfor %}
-</ul>
-{% endfor %}
+<div class="card mt-4">
+    <div class="card-header">
+        <h2>{{ training_type }} Plan</h2>
+    </div>
+    <div class="card-body">
+        {% for day, exercises in plan.items() %}
+        <h3>{{ day }}</h3>
+        <ul class="list-group mb-3">
+            {% for exercise in exercises %}
+            <li class="list-group-item">{{ exercise.name }} ({{ exercise.muscle_group }})</li>
+            {% endfor %}
+        </ul>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

@@ -1,16 +1,22 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<h2>Generate Training Plan</h2>
-<form action="{{ url_for('home') }}" method="post">
-    <div>
-        <label for="training_type">Training Type:</label>
-        <select id="training_type" name="training_type">
-            <option value="Push Pull Legs">Push Pull Legs</option>
-            <option value="Split">Split</option>
-            <option value="FBW">Full Body Workout</option>
-        </select>
+<div class="card mt-4">
+    <div class="card-header">
+        <h2>Generate Training Plan</h2>
     </div>
-    <button type="submit">Generate Plan</button>
-</form>
+    <div class="card-body">
+        <form action="{{ url_for('home') }}" method="post">
+            <div class="form-group">
+                <label for="training_type">Training Type:</label>
+                <select class="form-control" id="training_type" name="training_type">
+                    <option value="Push Pull Legs">Push Pull Legs</option>
+                    <option value="Split">Split</option>
+                    <option value="FBW">Full Body Workout</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Generate Plan</button>
+        </form>
+    </div>
+</div>
 {% endblock %}
