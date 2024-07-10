@@ -6,19 +6,24 @@ Training Plan Generator is a web application that allows users to create and man
 
 1.Clone the repository:
 ```
-git clone https://github.com/Kamil313333/Portfolio.git
+git clone https://github.com/Kamil313333/Training-Creator.git
 ```
 2.Navigate to the project directory:
 ```
-cd Portfolio
+cd Training-Creator
 ```
 3.Install dependencies:
 ```
-npm install
+pip install -r requirements.txt
+```
+4.Initialize the database:
+```
+from app import db
+db.create_all()
 ```
 5.Run the application:
 ```
-npm start
+flask run
 ```
 
 ### Screenshots
